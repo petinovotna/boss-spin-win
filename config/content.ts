@@ -33,7 +33,7 @@ export const content = {
 
   // Marketingový souhlas (NEPOVINNÝ, oddělený od účasti)
   marketingLabel:
-    "Chci dostávat novinky, nabídky a marketingová sdělení BOSS (nepovinné).",
+    "Chci jako první vědět o nových kolekcích a exkluzivních akcích BOSS.",
 
   // Success screen
   successTitle: "VÁŠ KÓD",
