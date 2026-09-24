@@ -103,7 +103,8 @@ label {
 label .req { color: var(--accent); }
 
 input[type="text"],
-input[type="email"] {
+input[type="email"],
+input[type="tel"] {
   width: 100%;
   padding: 12px 14px;
   background: var(--field-bg);
