@@ -11,8 +11,9 @@ create table if not exists registrations (
   first_name            text not null,
   last_name             text not null,
   email                 text not null,            -- ukládá se normalizovaný: trim + lowercase
+  phone                 text,                     -- telefonní číslo
   segment               text,                     -- zájem o sortiment (Pánská móda, Obuv, …)
-  code                  text not null,            -- formát BOSS-XXXXXX, uppercase
+  code                  text not null,            -- unikátní kód
   consent               boolean not null default false,   -- souhlas nutný pro účast
   consent_at            timestamptz,
   marketing_consent     boolean not null default false,   -- nepovinný marketingový opt-in
@@ -22,8 +23,9 @@ create table if not exists registrations (
   redeemed_by           text                      -- kdo redeem provedl (u sdíleného PINu = 'hostess')
 );
 
--- Pro případ, že tabulka už existovala bez sloupce segment (bezpečné spustit opakovaně)
+-- Pro případ, že tabulka už existovala bez některých sloupců (bezpečné spustit opakovaně)
 alter table registrations add column if not exists segment text;
+alter table registrations add column if not exists phone text;
 
 -- Unikátní e-mail → jeden člověk = jedna registrace (garance na úrovni DB)
 create unique index if not exists reg_email_unique on registrations (email);

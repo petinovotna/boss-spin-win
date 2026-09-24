@@ -13,15 +13,18 @@ export const content = {
   // --- Veřejná stránka (Spin & Win) ---
   headline: "SPIN & WIN",
   intro:
-    "Vyplňte své údaje a zatočte kolem štěstí. Získejte přístup k exkluzivním kolekcím a odměnám BOSS.",
+    "Vyplňte své údaje a zatočte kolem štěstí. Zobrazený kód ukažte hostesce u kola. Získejte přístup k exkluzivním kolekcím a odměnám BOSS.",
+
+  // Text tlačítka (CTA)
+  cta: "Získat kód",
 
   // Dotaz na sortiment — možnosti lze libovolně upravit
   segmentLabel: "O jaký sortiment BOSS máte největší zájem?",
   segmentPlaceholder: "Vyberte možnost",
   segmentOptions: ["Pánská móda", "Dámská móda", "Obuv", "Doplňky", "Parfémy"],
 
-  // Odkaz na zásady zpracování osobních údajů (doplní se finální URL)
-  privacyUrl: "#",
+  // Odkaz na zásady zpracování osobních údajů
+  privacyUrl: "https://www.lafm.cz/ochrana-osobnich-udaju",
 
   // Souhlas nutný pro ÚČAST v akci (povinný)
   consentLabel:

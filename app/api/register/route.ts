@@ -23,6 +23,7 @@ export async function POST(req: Request) {
   const firstName = String(body.firstName ?? "").trim();
   const lastName = String(body.lastName ?? "").trim();
   const emailRaw = String(body.email ?? "");
+  const phone = String(body.phone ?? "").trim();
   const segment = String(body.segment ?? "").trim();
   const consent = body.consent === true;
   const marketing = body.marketingConsent === true;
@@ -33,6 +34,8 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "missing_last_name" }, { status: 400 });
   if (!isValidEmail(emailRaw))
     return NextResponse.json({ error: "invalid_email" }, { status: 400 });
+  if (!/^[+0-9 ()\-]{9,}$/.test(phone) || phone.length > 30)
+    return NextResponse.json({ error: "missing_phone" }, { status: 400 });
   if (!segment || segment.length > 100)
     return NextResponse.json({ error: "missing_segment" }, { status: 400 });
   if (!consent)
@@ -61,6 +64,7 @@ export async function POST(req: Request) {
         first_name: firstName,
         last_name: lastName,
         email,
+        phone,
         segment,
         code,
         consent: true,

@@ -3,10 +3,11 @@
 import { useEffect, useRef, useState } from "react";
 import { content } from "@/config/content";
 
-type FieldErrors = { firstName?: string; lastName?: string; email?: string; segment?: string; consent?: string };
+type FieldErrors = { firstName?: string; lastName?: string; email?: string; phone?: string; segment?: string; consent?: string };
 const STORAGE_KEY = "boss_spin_win_code";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const PHONE_RE = /^[+0-9 ()\-]{9,}$/;
 
 function Hero() {
   return (
@@ -29,6 +30,7 @@ export default function Page() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [segment, setSegment] = useState("");
   const [consent, setConsent] = useState(false);
   const [marketing, setMarketing] = useState(false);
@@ -57,6 +59,7 @@ export default function Page() {
     if (!firstName.trim()) e.firstName = "Vyplňte prosím jméno.";
     if (!lastName.trim()) e.lastName = "Vyplňte prosím příjmení.";
     if (!EMAIL_RE.test(email.trim())) e.email = "Zadejte platný e-mail.";
+    if (!PHONE_RE.test(phone.trim())) e.phone = "Zadejte platné telefonní číslo.";
     if (!segment) e.segment = "Vyberte prosím možnost.";
     if (!consent) e.consent = "Pro účast je souhlas nutný.";
     setErrors(e);
@@ -82,6 +85,7 @@ export default function Page() {
           firstName: firstName.trim(),
           lastName: lastName.trim(),
           email: email.trim(),
+          phone: phone.trim(),
           segment,
           consent,
           marketingConsent: marketing,
@@ -105,6 +109,8 @@ export default function Page() {
         setFormError(content.alreadyRegistered);
       } else if (data.error === "invalid_email") {
         setErrors((p) => ({ ...p, email: "Zadejte platný e-mail." }));
+      } else if (data.error === "missing_phone") {
+        setErrors((p) => ({ ...p, phone: "Zadejte platné telefonní číslo." }));
       } else if (data.error === "missing_segment") {
         setErrors((p) => ({ ...p, segment: "Vyberte prosím možnost." }));
       } else if (data.error === "consent_required") {
@@ -231,6 +237,24 @@ export default function Page() {
           {errors.email && <div className="err">{errors.email}</div>}
         </div>
 
+        <div className={`field${errors.phone ? " field--invalid" : ""}`}>
+          <label htmlFor="phone">
+            Telefon <span className="req">*</span>
+          </label>
+          <input
+            id="phone"
+            type="tel"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            placeholder="+420 777 123 456"
+            autoComplete="tel"
+            inputMode="tel"
+            aria-invalid={!!errors.phone}
+            disabled={submitting}
+          />
+          {errors.phone && <div className="err">{errors.phone}</div>}
+        </div>
+
         <div className={`field${errors.segment ? " field--invalid" : ""}`}>
           <label htmlFor="segment">
             {content.segmentLabel} <span className="req">*</span>
@@ -292,7 +316,7 @@ export default function Page() {
               Odesílám…
             </>
           ) : (
-            "Zatočit a získat kód"
+            content.cta
           )}
         </button>
       </form>
