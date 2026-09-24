@@ -37,7 +37,8 @@ export const content = {
 
   // Success screen
   successTitle: "VÁŠ KÓD",
-  successHint: "Ukažte tento kód hostesce.",
+  successHint:
+    "Ukažte tento kód hostesce u kola štěstí, zatočte si a vyhrajte exkluzivní ceny BOSS.",
   copyLabel: "Zkopírovat kód",
   copiedLabel: "Zkopírováno ✓",
 
