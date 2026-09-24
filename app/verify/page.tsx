@@ -28,6 +28,7 @@ export default function VerifyPage() {
   const [redeemLoading, setRedeemLoading] = useState(false);
   const [actionError, setActionError] = useState<string | null>(null);
   const [redeemedNow, setRedeemedNow] = useState<string | null>(null);
+  const [stats, setStats] = useState<{ total: number; redeemed: number } | null>(null);
 
   const codeRef = useRef<HTMLInputElement>(null);
 
@@ -37,6 +38,19 @@ export default function VerifyPage() {
       .then((d) => setAuthed(!!d.authenticated))
       .catch(() => setAuthed(false));
   }, []);
+
+  async function fetchStats() {
+    try {
+      const res = await fetch("/api/stats");
+      if (res.ok) setStats(await res.json());
+    } catch {
+      /* ignore */
+    }
+  }
+
+  useEffect(() => {
+    if (authed) fetchStats();
+  }, [authed]);
 
   async function handleLogin(ev: React.FormEvent) {
     ev.preventDefault();
@@ -123,6 +137,7 @@ export default function VerifyPage() {
       if (data.status === "redeemed") {
         setRedeemedNow(data.redeemedAt);
         setResult({ ...result, status: "already_redeemed", redeemedAt: data.redeemedAt } as VerifyResult);
+        fetchStats();
       } else if (data.status === "already_redeemed") {
         // Mezitím redeemnula jiná hosteska
         setResult({ ...result, status: "already_redeemed", redeemedAt: data.redeemedAt } as VerifyResult);
@@ -187,6 +202,20 @@ export default function VerifyPage() {
       <div className="verify">
         <h1>Ověřit kód</h1>
         <p className="verify__sub">Zadejte kód z obrazovky návštěvníka</p>
+
+        {stats && (
+          <div className="stats">
+            <div className="stats__item">
+              <span className="stats__num">{stats.redeemed}</span>
+              <span className="stats__label">Využito</span>
+            </div>
+            <div className="stats__divider" />
+            <div className="stats__item">
+              <span className="stats__num">{stats.total}</span>
+              <span className="stats__label">Vygenerováno</span>
+            </div>
+          </div>
+        )}
 
         <form onSubmit={handleVerify} noValidate>
           <input
