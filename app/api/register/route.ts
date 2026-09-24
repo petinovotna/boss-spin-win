@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 
 /**
  * POST /api/register
- * Body: { firstName, lastName, email, consent, marketingConsent }
+ * Body: { firstName, lastName, email, segment, consent, marketingConsent }
  * Vytvoří registraci a vrátí unikátní kód. Duplicitní e-mail → 409.
  */
 export async function POST(req: Request) {
@@ -80,7 +80,6 @@ export async function POST(req: Request) {
       const detail = `${error.message} ${error.details ?? ""}`.toLowerCase();
       if (error.code === "23505") {
         if (detail.includes("reg_email_unique") || detail.includes("email")) {
-          // Race: mezitím se stejný e-mail zaregistroval jiným requestem.
           return NextResponse.json({ error: "already_registered" }, { status: 409 });
         }
         if (detail.includes("reg_code_unique") || detail.includes("code")) {

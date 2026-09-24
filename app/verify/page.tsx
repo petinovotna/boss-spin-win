@@ -194,7 +194,7 @@ export default function VerifyPage() {
             type="text"
             value={code}
             onChange={(e) => setCode(e.target.value)}
-            placeholder="BOSS-XXXXXX"
+            placeholder="Zadejte kód"
             autoComplete="off"
             autoCapitalize="characters"
             aria-label="Kód"
