@@ -207,12 +207,7 @@ export default function VerifyPage() {
           <div className="stats">
             <div className="stats__item">
               <span className="stats__num">{stats.redeemed}</span>
-              <span className="stats__label">Využito</span>
-            </div>
-            <div className="stats__divider" />
-            <div className="stats__item">
-              <span className="stats__num">{stats.total}</span>
-              <span className="stats__label">Vygenerováno</span>
+              <span className="stats__label">Využitých kódů</span>
             </div>
           </div>
         )}
